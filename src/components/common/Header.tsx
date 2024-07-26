@@ -1,7 +1,7 @@
 import { Logo, SignOut } from '../../assets/Icons'
 import { Button } from '../controls/Button';
-import './Header.less'
 import { Search } from './Search';
+import './Header.less'
 
 export function Header() {
     return (

@@ -1,0 +1,173 @@
+.Widget {
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    min-height: 500px;
+    box-shadow: 0px 202px 57px 0px rgba(0, 0, 0, 0.00), 0px 129px 52px 0px rgba(0, 0, 0, 0.01), 0px 73px 44px 0px rgba(0, 0, 0, 0.05), 0px 32px 32px 0px rgba(0, 0, 0, 0.09), 0px 8px 18px 0px rgba(0, 0, 0, 0.10), 0px 0px 0px 0px rgba(0, 0, 0, 0.10), 0px -2px 0px 0px rgba(0, 0, 0, 0.15) inset;
+
+    .header {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 20px;
+
+        svg {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    .properties {
+
+        >div {
+            padding: 0.5rem;
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+
+            label {
+                font-weight: bold;
+                display: block;
+                width: 100px;
+            }
+        }
+    }
+
+    .table {
+        width: 100%;
+
+        div {
+            --ag-row-hover-color: #F3F3F3 !important;
+            --ag-selected-row-background-color: #F3F3F3 !important;
+
+            width: 100%;
+            height: 100%;
+
+            // background-color: #F9F9FB;
+
+            .ag-center-cols-viewport {
+                // background-color: #F9F9FB;
+            }
+
+            .ag-root-wrapper {
+                border: none;
+            }
+
+            .ag-theme-quartz {
+                width: 100%;
+                height: 100%;
+
+                .ag-center-cols-container {
+                    width: 100%;
+                }
+            }
+
+            .ag-cell-focus {
+                outline: none !important;
+                border: none !important;
+            }
+
+            .ag-header-cell-text {
+                font-size: 13px;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                color: red;
+                font-weight: 700;
+            }
+
+            .ag-body-viewport {
+                .ag-row {
+                    cursor: pointer;
+                    // background-color: red;
+                    border-bottom: 1px solid rgb(226, 229, 233);
+                }
+
+                .ag-cell {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .grid-cell-ellipsis {
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .grid-cell-break-word {
+                    display: block;
+                    min-width: 0;
+                    flex: 0 1 auto;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 100%;
+
+                    a {
+                        display: flex;
+                        align-items: center;
+                        line-height: 15px;
+                        height: 100%;
+                        width: 100%;
+
+                        /* Allow text to wrap */
+                        white-space: normal;
+                        overflow-wrap: break-word;
+                        text-overflow: clip;
+                    }
+                }
+            }
+
+            .ag-cell {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                font-size: 13px;
+
+                color: black;
+            }
+
+            .ag-grid-namecell {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                .member-avatar {
+                    width: 2rem;
+                    height: 2rem;
+                    vertical-align: middle;
+                    margin-right: 0.5rem;
+                    border-radius: none;
+                }
+            }
+
+            .last-session-header {
+                text-align: right;
+            }
+
+            .disabled-row {
+                opacity: 0.5;
+
+                .group-selector {
+                    pointer-events: none;
+                    cursor: not-allowed !important;
+                }
+
+                .member-avatar {
+                    position: relative;
+
+                    &::after {
+                        content: "×";
+                        display: block;
+                        width: 14px;
+                        height: 14px;
+                        position: absolute;
+                        top: -4px;
+                        right: -4px;
+                        font-size: 14px;
+                        line-height: 12px;
+                        text-align: center;
+                        color: #fff;
+
+                        background-color: red;
+                        border-radius: 50%;
+                    }
+                }
+
+            }
+        }
+    }
+}
