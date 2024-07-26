@@ -1,0 +1,27 @@
+.Input {
+    padding: 0.5rem;
+    display: flex;
+    position: relative;
+
+    input {
+        height: 40px;
+        width: 100%;
+        padding: 0.5rem;
+        border: 2px solid #e2e5e9;
+        border-radius: 8px;
+        outline: none;
+
+        &:focus,
+        &:active {
+            border-color: #D22D2E;
+        }
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 20px;
+        top: calc(10px + 0.5rem);
+    }
+}

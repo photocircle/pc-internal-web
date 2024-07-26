@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="PhotoCircle for Business"
+    />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#d22d2e">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="manifest" href="/manifest.json" />
+    <title>PhotoCircle for Business</title>
+    <script>
+      const hostname = "{{ root_hostname }}";
+      if (!hostname.startsWith("{")) window.PHOTOCIRCLE_ROOT_HOSTNAME = hostname;
+      const environment = "{{ environment }}";
+      if (!environment.startsWith("{")) window.PHOTOCIRCLE_ENVIRONMENT = environment;
+    </script>
+    <script fetchpriority="high" type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+  </head>
+  <body>
+    <noscript>PhotoCircle for Business requires JavaScript enabled.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

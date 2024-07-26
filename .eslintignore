@@ -1,0 +1,6 @@
+*.css
+*.svg
+/src/generated/*.js
+/src/generated/*.ts
+/src/node_modules/
+/src/public/
