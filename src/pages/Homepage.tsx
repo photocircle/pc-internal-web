@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CircleCard } from "../components/cards/CircleCard";
 import { Header } from "../components/common/Header";
 import { UserCard } from "../components/cards/UserCard";
 import { CircleMetadata, MemberMetadata } from "../generated/web_app_grpc_pb";
+import { WorkspaceCard } from "../components/cards/WorkspaceCard";
 import './Homepage.less'
 
 export type UserType = MemberMetadata.AsObject & { circles: CircleType[] }
@@ -127,28 +128,33 @@ const circle: CircleType = {
     ]
 }
 
+const workspace = {
+    name: 'Workspace 1',
+    members: [
+        user
+    ],
+    circles: [
+        circle
+    ]
+}
+
+export type WorkspaceType = {
+    name: string,
+    members: UserType[]
+    circles: CircleType[]
+}
+
 export function Homepage() {
     const [selected, setSelected] = useState([{
-        type: 'circle',
-        item: circle,
-    }, {
-        type: 'user',
-        item: user,
-    },
-        // {
-        //     type: 'circle',
-        //     item: circle,
-        // }, {
-        //     type: 'user',
-        //     item: user,
-        // },
-        // {
-        //     type: 'circle',
-        //     item: circle,
-        // }
-    ])
+        type: 'workspace',
+        item: workspace,
+    }])
 
-    const handleSelect = (type: 'circle' | 'user', item: CircleType | UserType, level: number) => {
+    useEffect(() => {
+        window.scrollTo({ left: selected.length * 1000, behavior: 'smooth' });
+    }, [selected])
+
+    const handleSelect = (type: 'circle' | 'user' | 'workspace', item: CircleType | UserType | WorkspaceType, level: number) => {
         if (type == "user") {
             item.circles = user.circles
         } else {
@@ -159,7 +165,6 @@ export function Homepage() {
             item,
         }])
     }
-    console.log(selected)
 
     return (
         <div className="Homepage">
@@ -167,20 +172,32 @@ export function Homepage() {
 
             <div className="content">
                 {selected.map((item, index) => {
+                    const focused = index === selected.length - 1
                     if (item.type === 'user') {
                         return <UserCard
                             key={index}
                             {...(item.item as UserType)}
                             onSelect={handleSelect}
                             index={index}
+                            focused={focused}
+                        />
+                    } else if (item.type === 'circle') {
+                        return <CircleCard
+                            key={index}
+                            {...(item.item as CircleType)}
+                            onSelect={handleSelect}
+                            index={index}
+                            focused={focused}
+                        />
+                    } else if (item.type === 'workspace') {
+                        return <WorkspaceCard
+                            key={index}
+                            {...(item.item as WorkspaceType)}
+                            onSelect={handleSelect}
+                            index={index}
+                            focused={focused}
                         />
                     }
-                    return <CircleCard
-                        key={index}
-                        {...(item.item as CircleType)}
-                        onSelect={handleSelect}
-                        index={index}
-                    />
                 })}
             </div>
         </div>
