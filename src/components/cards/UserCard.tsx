@@ -1,17 +1,12 @@
 import { ReactNode } from "react";
-import { Circle } from "../generated/web_app_grpc_pb";
-import {
-    User as UserIcon,
-    Circle as CircleIcon
-} from "../assets/Icons";
+import { Circle } from "../../generated/web_app_grpc_pb";
+import { Circle as CircleIcon } from "../../assets/Icons";
 import { ColDef } from "ag-grid-community";
-import MemoizedGrid from "./MemoizedGrid";
-import { GroupCell } from "../common/table-utils";
-import { formatLocaleDate } from "../common/utils";
-// import './User.less'
+import MemoizedGrid from "../MemoizedGrid";
+import { Avatar, GroupCell } from "../../common/table-utils";
+import { formatLocaleDate } from "../../common/utils";
+import './User.less'
 import './Widget.less'
-import "ag-grid-community/styles/ag-grid.css"
-import "ag-grid-community/styles/ag-theme-quartz.css"
 
 type Props = {
     user: {
@@ -20,9 +15,11 @@ type Props = {
         name: string;
         email: string;
         circles: Circle[];
+        displayName: string;
+        avatarUrl: string;
     };
 }
-export function User({ user }: Props) {
+export function UserCard({ user }: Props) {
     const internalIdsEnabled = false
 
     const columnDefs: ColDef[] = [
@@ -31,7 +28,7 @@ export function User({ user }: Props) {
             cellClass: "grid-cell-ellipsis",
             field: "title",
             sortable: true,
-            resizable: true,
+            resizable: false,
             flex: 1,
         },
         ...(internalIdsEnabled ? [{
@@ -73,7 +70,7 @@ export function User({ user }: Props) {
     return (
         <div className="User Widget">
             <div className="header">
-                <UserIcon /> {user.name}
+                <Avatar profile={user} /> {user.name}
             </div>
 
             <div className="properties">
@@ -85,7 +82,7 @@ export function User({ user }: Props) {
 
             <div className="circles">
                 <h3><CircleIcon />  Circles</h3>
-                <div className="table">
+                <div className="table ag-theme-quartz">
                     <MemoizedGrid
                         key={''}
                         rowData={memoizedCirclesList}
