@@ -1,20 +1,24 @@
-import { ReactNode } from "react";
-import { CircleMetadata, Role } from "../../generated/web_app_grpc_pb";
+import { CircleMetadata, MemberMetadata } from "../../generated/web_app_grpc_pb";
 import { User as MemmberIcon } from "../../assets/Icons";
 import { ColDef, ICellRendererParams } from "ag-grid-community";
 import MemoizedGrid from "../MemoizedGrid";
 import { NameCellForAgGrid } from "../../common/table-utils";
 import { formatLocaleDate, getMediaUrl } from "../../common/utils";
-import defaultBg from "../assets/icons/circle-placeholder.png"
+import defaultBg from "../../assets/icons/circle-placeholder.png"
 import './Circle.less'
-import './Widget.less'
+import '../Widget.less'
+import { CircleType, UserType } from "../../pages/Homepage";
 
 type Props = {
-    coverPhotoMediaUuid: string
-    lastMediaUuid: string
-} & CircleMetadata.AsObject
+    index: number
+    onSelect: (type: 'user', item: UserType, level: number) => void
+    coverPhotoMediaUuid?: string
+    lastMediaUuid?: string
+    members: MemberMetadata.AsObject[]
+} & CircleType
 
 export function CircleCard({
+    index,
     circleUuid,
     title,
     mediaCount,
@@ -28,7 +32,9 @@ export function CircleCard({
     targetRoleIdsList,
     coverPhotoMediaUuid,
     lastMediaUuid,
-    rolesList
+    rolesList,
+    members,
+    onSelect
 }: Props) {
     const internalIdsEnabled = false
     const coverPhoto = coverPhotoMediaUuid ? coverPhotoMediaUuid : lastMediaUuid
@@ -43,6 +49,7 @@ export function CircleCard({
                 isDisabled: !params.data.isActive,
             }),
             sortable: true,
+            resizable: false,
             flex: 1,
             minWidth: 70,
         },
@@ -58,6 +65,7 @@ export function CircleCard({
             headerName: "Media",
             field: "mediaCount",
             sortable: true,
+            resizable: false,
             width: 72,
             cellClass: "grid-text-align-right",
             cellStyle: { textAlign: "right" },
@@ -66,6 +74,7 @@ export function CircleCard({
             headerName: "Last Session",
             field: "lastSessionTimestamp",
             sortable: true,
+            resizable: false,
             width: 139,
             cellClass: "grid-cell-ellipsis",
             cellStyle: { textAlign: "right" },
@@ -74,7 +83,9 @@ export function CircleCard({
         }
     ]
 
-    const onRowClicked = (event: { data: { circleUuid: string } }) => {
+    const onRowClicked = (event: { data: UserType }) => {
+        console.log('in ciecle row click', event)
+        onSelect('user', event.data, index + 1)
     }
 
     return (
@@ -100,7 +111,7 @@ export function CircleCard({
                 <div className="table ag-theme-quartz">
                     <MemoizedGrid
                         key={''}
-                        rowData={users}
+                        rowData={members}
                         columnDefs={columnDefs}
                         onRowClicked={onRowClicked}
                         rowHeight={50}
@@ -112,60 +123,3 @@ export function CircleCard({
         </div>
     );
 }
-
-const users = [
-    {
-        "displayName": "Medin Nuhiji",
-        "mediaCount": 0,
-        "isWorkspaceMember": false,
-        "memberUuid": "975c8599-20a1-4104-8498-b6326629c987",
-        "userUuid": "005da4b5-5eaa-4df3-bfa3-1e04846673c3",
-        "isActive": true,
-        "roleId": 4,
-        "targetRoleIdsList": []
-    },
-    {
-        "displayName": "Medin test",
-        "mediaCount": 67,
-        "lastSessionTimestamp": 1722339262796932,
-        "isWorkspaceMember": true,
-        "avatarUrl": "https://avatar.dev.photocircleapp.com/3f3cf780056b490cae2b3b5f2086cc7c-20240724175424",
-        "memberUuid": "aadd454f-76db-4e61-93da-ec705189e771",
-        "userUuid": "3f3cf780-056b-490c-ae2b-3b5f2086cc7c",
-        "isActive": true,
-        "roleId": 1,
-        "targetRoleIdsList": [
-            1,
-            2
-        ]
-    },
-    {
-        "displayName": "Alex Vasilkov",
-        "mediaCount": 0,
-        "lastSessionTimestamp": 1722276338590050,
-        "isWorkspaceMember": true,
-        "memberUuid": "0e633471-634d-4ff9-bd85-80a83705629a",
-        "userUuid": "4f7375f3-3f72-422f-ae2a-89689bbf1303",
-        "isActive": false,
-        "roleId": 2,
-        "targetRoleIdsList": [
-            1,
-            2
-        ]
-    },
-    {
-        "displayName": "Justin-Web",
-        "mediaCount": 0,
-        "lastSessionTimestamp": 1722099083476806,
-        "isWorkspaceMember": true,
-        "avatarUrl": "https://avatar.dev.photocircleapp.com/832d08752bb247c283a829add735e559-20240508160355",
-        "memberUuid": "49c0b3d0-7edc-40e9-940a-771620344599",
-        "userUuid": "832d0875-2bb2-47c2-83a8-29add735e559",
-        "isActive": true,
-        "roleId": 1,
-        "targetRoleIdsList": [
-            1,
-            2
-        ]
-    }
-]
