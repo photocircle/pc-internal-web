@@ -6,6 +6,10 @@ import { CircleMetadata, MemberMetadata } from "../generated/web_app_grpc_pb";
 import { WorkspaceCard } from "../components/cards/WorkspaceCard";
 import './Homepage.less'
 
+// XXX: For demo purposes
+import { grpcClient, grpcMetadata } from "../common/utils";
+import { HelloRequest } from "../generated/internal_pb";
+
 export type UserType = MemberMetadata.AsObject & { circles: CircleType[] }
 
 const user: UserType = {
@@ -165,6 +169,10 @@ export function Homepage() {
             item,
         }])
     }
+
+    // XXX HACK: This is just an example gRPC call. Check network tab
+    const req = new HelloRequest()
+    const resp = grpcClient.hello(req, grpcMetadata).then((resp) => console.log(resp.toObject()))
 
     return (
         <div className="Homepage">

@@ -1,6 +1,6 @@
 import React from "react"
 import { Buffer } from "buffer"
-import { PhotoCircleWebClient } from "../generated/Web_app_grpcServiceClientPb"
+import { PhotoCircleWebInternalClient } from "../generated/InternalServiceClientPb"
 import {
     Group, Media, StatusCode, SubscriptionMediaPackage, SubscriptionTerm,
 } from "../generated/web_app_grpc_pb.js"
@@ -44,7 +44,7 @@ export const adminAppHostname = `admin.${ROOT_HOSTNAME}`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const { origin } = (window as any).location
 
-export const grpcClient = new PhotoCircleWebClient(`https://${apiHostname}`, null, {
+export const grpcClient = new PhotoCircleWebInternalClient(`https://${apiHostname}`, null, {
     withCredentials: true,
     unaryInterceptors: [new RetryInterceptor()],
 })
