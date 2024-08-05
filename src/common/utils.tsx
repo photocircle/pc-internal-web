@@ -1,5 +1,7 @@
 import React from "react"
 import { Buffer } from "buffer"
+import { credentials } from "grpc-web"
+
 import { PhotoCircleWebInternalClient } from "../generated/InternalServiceClientPb"
 import {
     Group, Media, StatusCode, SubscriptionMediaPackage, SubscriptionTerm,
@@ -44,16 +46,17 @@ export const adminAppHostname = `admin.${ROOT_HOSTNAME}`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const { origin } = (window as any).location
 
-export const grpcClient = new PhotoCircleWebInternalClient(`https://${apiHostname}`, null, {
-    withCredentials: true,
+export const grpcClient = new PhotoCircleWebInternalClient(`https://${apiHostname}`, {}, {
     unaryInterceptors: [new RetryInterceptor()],
 })
+
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const grpcMetadata: any = {
     "pc-app-version": "2022.1129.01",
     "pc-device-type": "web",
     "pc-schema-version": SchemaVersion.CURRENT_SCHEMA_VERSION,
+    "authorization": "Bearer 6TV5rO35v0kOwgPIisBz9tZrJJoKTE", // XXX: Hard-coded for now
 }
 
 export enum DeviceType {
