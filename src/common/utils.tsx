@@ -1,6 +1,5 @@
 import React from "react"
 import { Buffer } from "buffer"
-import { credentials } from "grpc-web"
 
 import { PhotoCircleWebInternalClient } from "../generated/InternalServiceClientPb"
 import {
