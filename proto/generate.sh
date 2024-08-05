@@ -6,9 +6,9 @@
 
 # HOW TO
 
-# 1 - Go to https://github.com/photocircle/circleapi/blob/develop/proto-gen/proto/web_app_grpc.proto and download it.
+# 1 - Go to https://github.com/photocircle/circleapi/blob/develop/proto-gen/proto/interal.proto and download it.
 
-# 2 - Replace proto/web_app_grpc.proto with it
+# 2 - Replace proto/internal.proto with it
 
 # 3 - Run npm run regen-proto
 
@@ -51,15 +51,15 @@ protoc \
   --plugin=protoc-gen-grpc-web=${SCRIPT_DIR}/plugins/protoc-gen-grpc-web \
   --js_out=import_style=commonjs,binary:../src/generated/ \
   --grpc-web_out=import_style=typescript,mode=grpcweb:../src/generated/ \
-  ./web_app_grpc.proto
+  ./internal.proto
 
 echo "Post-processing generated protos"
-mv ../src/generated/web_app_grpc_pb.js ../src/generated/web_app_grpc_pb_internal.js
+mv ../src/generated/internal_pb.js ../src/generated/internal_pb_internal.js
 OS=$(uname -s)
 if [ "$OS" = "Linux" ]; then
-  sed -i'' -e '/exports/s/^/\/\/COMMENTED BY PHOTOCIRCLE\n\/\//' ../src/generated/web_app_grpc_pb_internal.js
+  sed -i'' -e '/exports/s/^/\/\/COMMENTED BY PHOTOCIRCLE\n\/\//' ../src/generated/internal_pb_internal.js
 elif [ "$OS" = "Darwin" ]; then
-  sed -i '' -e '/exports/s/^/\/\/COMMENTED BY PHOTOCIRCLE\n\/\//' ../src/generated/web_app_grpc_pb_internal.js
+  sed -i '' -e '/exports/s/^/\/\/COMMENTED BY PHOTOCIRCLE\n\/\//' ../src/generated/internal_pb_internal.js
 else
   echo "Unsupported OS for sed modification"
   exit 1
