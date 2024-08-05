@@ -53,7 +53,7 @@ export const grpcClient = new PhotoCircleWebInternalClient(`https://${apiHostnam
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const grpcMetadata: any = {
-    "pc-app-version": "2022.1129.01",
+    "pc-app-version": "2024.0805.01",
     "pc-device-type": "web-internal",
     "pc-schema-version": SchemaVersion.CURRENT_SCHEMA_VERSION,
     "authorization": "Bearer 6TV5rO35v0kOwgPIisBz9tZrJJoKTE", // XXX: Hard-coded for now
