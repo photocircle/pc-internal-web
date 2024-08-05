@@ -1,0 +1,297 @@
+syntax = "proto2";
+package internal;
+
+/*********************
+ * Common structures *
+ *********************/
+
+// These are messages that are used in different services and in various RPCs
+// They roughly correspond to data stored in the the database.
+
+// Pass this value in the pc-schema-version header.
+enum SchemaVersion { CURRENT_SCHEMA_VERSION = 1080; } // DO NOT MANUALLY EDIT!
+
+message Branding {
+  required string header_background_color = 1;
+  required string primary_color = 2;
+  required string logo_url = 3;
+  optional string action_url = 4; // tapping on logo opens this url
+}
+
+message CirclePermissions {
+  required bool can_add_media = 1;
+  required bool can_view_comments = 2;
+  required bool can_add_comments = 3;
+  required bool can_view_reactions = 4;
+  required bool can_add_reaction = 5;
+  required bool can_view_members_list = 6;
+  required bool can_invite_members = 7;
+  required bool can_delete_circle = 8;
+  required bool can_leave_circle = 9;
+  required bool can_remove_members = 10;
+  required bool can_update_title = 12;
+  required bool can_share_web_album = 13;
+  required bool can_save_individual_media = 14;
+  required bool can_save_all_to_library = 15;
+  required bool can_share_media = 16;
+  required bool can_set_circle_cover = 17;
+  required bool can_remove_other_media = 18;
+  required bool can_remove_other_comments = 19;
+  required bool can_view_dates = 20;
+  required bool can_update_other_caption = 21;
+  required bool can_reorder_media = 22;
+  required bool can_unblock_users = 23;
+  required bool can_download_zip = 24;
+  required bool can_download_excel = 25;
+  required bool can_inactivate_membership = 26;
+}
+
+message CircleConfig {
+  required bool enable_ads = 1;
+  required uint32 max_video_length = 2; // max in seconds
+  required bool enable_event_tracking = 3;
+  optional Branding branding = 4;
+  required uint32 default_video_selection_length = 5; // default selection length in seconds for trimmer
+  required uint32 minimum_video_length_for_trim = 6; // minimum in seconds to trigger display of the trimmer
+  optional ReactionSet reaction_set = 7; // optional override of global reaction set
+  optional uint32 max_photo_dimension = 8;
+  optional VideoResolution video_resolution = 9;
+  optional uint32 video_bitrate_kbps = 10;
+  repeated Role roles = 11; // list of all roles that exist for this Circle; should be displayed in this order in Member List
+}
+
+message AdminCircleMetadata {
+  required uint32 media_count = 1;
+  required uint32 member_count = 2;
+  repeated Role roles = 3; // list of all roles that exist for this Circle; should be displayed in this order in Member List
+  // When viewing a user, their circles list will include the following metadata about their membership
+  optional string member_uuid = 4;
+  optional uint32 role_id = 5; // lookup role_id in CircleConfig roles
+  repeated uint32 target_role_ids = 6; // exists when admin can change the role of this member; when showing change dialog, use this ordering
+}
+
+// Data about a circle and its creator.
+message Circle {
+  required string circle_uuid = 1; // also known as item_uuid
+  required string title = 2;
+  required uint64 date_created_timestamp = 4; // epoch microseconds
+  optional string cover_photo_media_uuid = 5; // the photo to show on the main screen (optional)
+  optional string group_uuid = 7;
+  optional uint64 last_activity_timestamp = 10;
+  optional string internal_id = 11;
+  optional string workspace_uuid = 12;
+  optional string last_media_uuid = 13; // last media added to the circle; only available for workspace circles
+  optional AdminCircleMetadata admin_circle_metadata = 14;
+}
+
+message Role {
+  required uint32 role_id = 1; //stable role ID
+  required string name = 2;
+  optional string description = 3;
+  optional uint32 icon_id = 4; // ID of Role Icon; 1=Moderator, 2=Contributor, 4=Guest in asset bundle
+  optional bytes icon_bytes = 5; // PNG bytes for the Role Icon; Message will include icon_id OR icon_bytes
+}
+
+message AdminMemberMetadata {
+  required uint32 media_count = 1;
+  optional uint64 last_session_timestamp = 2; // epoch microseconds
+}
+
+// A member of a circle.
+message CircleMember {
+  required string member_uuid = 1; // also known as item_uuid
+  optional string user_uuid = 2; // used for matching against user profile, and to match members across circles
+  required string circle_uuid = 3;
+  required uint64 last_updated_timestamp = 4; // epoch microseconds
+  required string display_name = 5;
+  optional string avatar_url = 6;
+  optional string invited_by_member_uuid = 7;
+  required uint64 date_joined_timestamp = 8; // epoch microseconds
+  optional uint64 last_session_timestamp = 11; //  epoch microseconds TODO: Remove this since it'll be hidden behind admin call
+  required bool is_active = 12; // This will be False if a workspace member leaves, as they can always rejoin
+  required bool is_removable = 14; // If False, then Moderator can't remove this member from the circle
+  required bool is_workspace_member = 15;
+  required uint32 role_id = 16; // lookup role_id in CircleConfig roles
+  repeated uint32 target_role_ids = 17; // exists when active member can change the role of this member; when showing change dialog, use this ordering
+  optional AdminMemberMetadata admin_member_metadata = 18;
+}
+
+message CircleMembershipConfig {
+  required string circle_uuid = 1;
+  required string member_uuid = 2;
+  optional CirclePermissions permissions = 3;
+  optional CircleConfig config = 4;
+}
+
+// A photo or video posted within a circle.
+message Media {
+  required string media_uuid = 1;
+  required string circle_uuid = 2;
+  required bool is_video = 3;
+  required string added_by_member_uuid = 4; // member who added post
+  required uint64 date_added_timestamp = 5; // epoch microseconds
+  optional string caption = 6;
+  optional bytes preview_data = 7; // image data used for blurred thumbnail.
+  // used for determining album order. in general, media should be sorted by
+  // this key in descending order.
+  required int64 sort_key = 8; // for now, value may range from [0, (2^32)-1]. that is, only 32 bits are used.
+  // Remove stream_id at index 9
+}
+
+// A comment added to a media post.
+message MediaComment {
+  required string comment_uuid = 1; // also known as item_uuid
+  required string media_uuid = 2;
+  required string added_by_member_uuid = 3;
+  required string comment_text = 4;
+  required uint64 date_added_timestamp = 5; // epoch microseconds
+}
+
+// A reaction added to a media post
+message MediaReaction {
+  required string media_uuid = 1;
+  required string added_by_member_uuid = 2;
+  required string reaction_text = 3; // empty string removes existing reaction; currently 1 character allowed for reaction; use 1st character if more than one
+  required uint64 date_modified_timestamp = 4; // epoch microseconds
+}
+
+// Auth flows associated with a user
+enum AuthType {
+  PASSWORD = 1;
+  FACEBOOK_TOKEN = 2;
+  GOOGLE_TOKEN = 3;
+  APPLE_TOKEN = 4;
+  MICROSOFT_TOKEN = 5;
+}
+
+enum EmailStatus {
+  UNVERIFIED = 1;
+  VERIFIED = 2;
+  INVALID = 3;
+}
+
+// Data for a user. Used for currently logged in user and for administration.
+message Profile {
+  required string user_uuid = 1;
+  required uint64 last_updated_timestamp = 2; // epoch microseconds
+  required string display_name = 3;
+  optional string email = 4;
+  optional string avatar_url = 5;
+  repeated AuthType auth_types = 6;
+  required uint64 account_creation_timestamp = 7; // epoch microseconds
+  optional string group_uuid = 8;
+  optional bool is_group_admin = 9;
+  optional uint64 last_session_timestamp = 10; //  epoch microseconds
+  repeated Group groups = 12;
+  optional string workspace_uuid = 13;
+  optional bool is_disabled = 14;
+  required EmailStatus email_status = 15;
+  map<string, string> ad_custom_targeting = 16;
+  optional bool is_workspace_owner = 17;
+}
+
+// Information about a group of users (used for administration)
+message Group {
+  required string group_uuid = 1;
+  required string name = 2;
+  required uint64 date_created = 3; // epoch microseconds
+  optional string parent_group_uuid = 5;
+}
+
+message ReactionCategory {
+  optional string category_name = 1; // don't include category header if null
+  required string reactions = 2; // string contains all the emojis for this category
+}
+
+message ReactionSet {
+  required string default_reactions = 1; // string contains all the default reactions; max of 7
+  repeated ReactionCategory reaction_categories = 2;
+}
+
+message LegalUrls {
+  optional string terms_of_use_url = 1;
+  optional string usage_guidelines_url = 2;
+  optional string privacy_policy_url = 3;
+}
+
+message UserAlert {
+  required string user_alert_uuid = 1; // unique UUID string for the alert
+  optional string title = 2;
+  required string body = 3;
+  repeated UserAlertButton user_alert_buttons = 4; // one or more buttons for the alert
+}
+
+message UserAlertButton {
+  required string button_text = 1;
+  required UserAlertButtonAction button_action = 2;
+}
+
+enum UserAlertButtonAction {
+  CLOSE = 1; // Simply close the alert dialog; no action
+  EDIT_PROFILE = 2; // Open the Edit Profile screen
+  APP_STORE = 3; // Open the Apple App Store or Google Play Store for PhotoCircle
+  CONTACT_SUPPORT = 4; // Open new Helpshift Support Conversation
+}
+
+enum VideoResolution {
+  VIDEO_720P = 1;
+  VIDEO_1080P = 2;
+}
+
+enum FileType {
+  ZIP = 1;
+  EXCEL = 2;
+}
+
+// Possible status codes used in responses.
+enum StatusCode {
+  UNKNOWN_STATUS = 0;
+  SUCCESS = 1;
+
+  NOT_MODIFIED = 100;
+  BAD_REQUEST = 101;
+  NOT_FOUND = 102;
+  FORBIDDEN = 103;
+
+  ACCOUNT_EXISTS = 200;
+  INVALID_AUTH = 201;
+  NO_PASSWORD_SET = 202;
+  ACCOUNT_SUSPENDED = 203;
+  UNACCEPTABLE_PASSWORD = 205;
+  CONSENT_REQUIRED = 206;
+  SSO_AUTH_REQUIRED_MICROSOFT = 207;
+  SSO_AUTH_REQUIRED_GOOGLE = 208;
+  AUTH_OTP_REQUIRED = 209;
+  AUTH_EXPIRED = 210;
+  INVALID_OTP = 211;
+
+  UNACCEPTABLE_DOMAIN = 300;
+  BAD_WORKSPACE = 301;
+  ADDED_TO_WORKSPACE = 302;
+  WEB_ACCESS_DENIED = 303;
+  DUPLICATE_CIRCLE_TITLE = 304;
+  DUPLICATE_CIRCLE_INTERNAL_ID = 305;
+}
+
+// The following are the “core” status codes that the client should support from all responses:
+//  SUCCESS - This is pretty obvious; the request was successful
+//  BAD_REQUEST - Client failed to validate (e.g., empty field, malformed UUID, email without an @ symbol)
+//                The data is somehow bad. The backend will report all of these to Sentry and provide details to
+//                client developers when this happens, so that future builds will address the issue.
+//  NOT_FOUND - Something doesn't exist on the backend (e.g., member, circle, media, comment).
+//              In most cases, this is a race condition, where item has recently been deleted and client is not yet aware.
+//              For the case of Authentication, this is more specific (e.g., account not found).
+//  FORBIDDEN - In most cases, the client will have up-to-date permissions for can_*.
+//              However, there may be cases where there is a new permission that is not provided to the client.
+//              In such a case, the client should handle this with a generic alert to the user.
+
+service PhotoCircleWebInternal {
+	rpc Hello(HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+}
+
+message HelloResponse {
+	required StatusCode status_code = 1;
+}
