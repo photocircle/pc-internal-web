@@ -9,7 +9,7 @@ package internal;
 // They roughly correspond to data stored in the the database.
 
 // Pass this value in the pc-schema-version header.
-enum SchemaVersion { CURRENT_SCHEMA_VERSION = 1080; } // DO NOT MANUALLY EDIT!
+enum SchemaVersion { CURRENT_SCHEMA_VERSION = 1082; } // DO NOT MANUALLY EDIT!
 
 message Branding {
   required string header_background_color = 1;
@@ -287,6 +287,137 @@ enum StatusCode {
 
 service PhotoCircleWebInternal {
 	rpc Hello(HelloRequest) returns (HelloResponse) {}
+	rpc Search(SearchRequest) returns (SearchResponse) {}
+}
+
+message SearchRequest {
+	required string search_text = 1;
+}
+
+message SearchResponse {
+	required StatusCode status_code = 1;
+	optional UserDetail user_detail = 2;
+	optional CircleDetail circle_detail = 3;
+	optional WorkspaceDetail workspace_detail = 4;
+	optional GroupDetail group_detail = 5;
+	repeated UserSummary user_summaries = 6;
+	repeated CircleSummary circle_summaries = 7;
+	repeated WorkspaceSummary workspace_summaries = 8;
+	repeated GroupSummary group_summaries = 9;
+}
+
+message UserSummary {
+	required string user_uuid = 1;
+	required string display_name = 2;
+	required string email = 3;
+	required EmailStatus email_status = 4;
+	required uint64 creation_timestamp = 5; // epoch microseconds
+	required uint64 last_session_timestamp = 6; // epoch microseconds
+	required PlatformType platform = 7;
+	required bool is_disabled = 8;
+	required bool is_workspace_user = 9;
+}
+
+message UserDetail {
+	required string user_uuid = 1;
+	required string display_name = 2;
+	required string email = 3;
+	required EmailStatus email_status = 4;
+	required uint64 creation_timestamp = 5; // epoch microseconds
+	required uint64 last_session_timestamp = 6; // epoch microseconds
+	required PlatformType platform = 7;
+	required bool is_disabled = 8;
+	repeated AuthType auth_types = 9;
+	optional WorkspaceSummary workspace = 10;
+	optional GroupSummary group = 11;
+	optional bool is_workspace_owner = 12;
+	repeated CircleSummary circles = 13;
+	optional string avatar_url = 14;
+}
+
+message CircleSummary {
+	required string circle_uuid = 1;
+	required string title = 2;
+	optional string internal_id = 3;
+	optional WorkspaceSummary workspace = 4;
+	optional GroupSummary group = 5;
+	required uint64 member_count = 6;
+	required uint64 media_count = 7;
+	required uint64 creation_timestamp = 8; // epoch microseconds
+}
+
+message CircleDetail {
+	required string circle_uuid = 1;
+	required string title = 2;
+	optional string internal_id = 3;
+	optional WorkspaceSummary workspace = 4;
+	optional GroupSummary group = 5;
+	required uint64 member_count = 6;
+	required uint64 media_count = 7;
+	required uint64 creation_timestamp = 8; // epoch microseconds
+	repeated MemberSummary members = 9;
+}
+
+message MemberSummary {
+	required string user_uuid = 1;
+	required string display_name = 2;
+	required string email = 3;
+	required string role_name = 4;
+	required bool is_circle_creator = 5;
+	required uint64 media_contribution_count = 6;
+	required uint64 joined_timestamp = 7; // epoch microseconds
+	required uint64 last_session_timestamp = 8; // epoch microseconds
+}
+
+message WorkspaceSummary {
+	required string workspace_uuid = 1;
+	required string name = 2;
+	required string company = 3;
+	required uint64 created_timestamp = 4;
+}
+
+message WorkspaceDetail {
+	required string workspace_uuid = 1;
+	required string name = 2;
+	required string company = 3;
+	required uint64 created_timestamp = 4;
+	required GroupSummary root_group = 5;
+	repeated UserSummary users = 6;
+	optional uint64 seats_purchased = 7;
+	required uint64 seats_enabled = 8;
+	optional uint64 subscription_term_start_timestamp = 9;
+	optional uint64 subscription_term_end_timestamp = 10;
+	optional string stripe_subscription_id = 11;
+	optional string stripe_customer_id = 12;
+	required MediaResolutionType media_resolution = 13;
+	repeated UserSummary owners = 14;
+}
+
+message GroupSummary {
+	required string group_uuid = 1;
+	required string name = 2;
+	required WorkspaceSummary workspace = 3;
+}
+
+message GroupDetail {
+	required string group_uuid = 1;
+	required string name = 2;
+	required WorkspaceSummary workspace = 3;
+	optional GroupSummary parent = 4;
+	repeated GroupSummary children = 5;
+	repeated UserSummary users = 6;
+	repeated CircleSummary cirlces = 7;
+}
+
+enum PlatformType {
+  UNKNOWN = 1;
+  IOS = 2;
+  ANDROID = 3;
+}
+
+enum MediaResolutionType {
+	STANDARD = 1;
+	HIGH = 2;
 }
 
 message HelloRequest {

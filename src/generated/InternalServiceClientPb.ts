@@ -78,5 +78,48 @@ export class PhotoCircleWebInternalClient {
     this.methodDescriptorHello);
   }
 
+  methodDescriptorSearch = new grpcWeb.MethodDescriptor(
+    '/internal.PhotoCircleWebInternal/Search',
+    grpcWeb.MethodType.UNARY,
+    internal_pb.SearchRequest,
+    internal_pb.SearchResponse,
+    (request: internal_pb.SearchRequest) => {
+      return request.serializeBinary();
+    },
+    internal_pb.SearchResponse.deserializeBinary
+  );
+
+  search(
+    request: internal_pb.SearchRequest,
+    metadata: grpcWeb.Metadata | null): Promise<internal_pb.SearchResponse>;
+
+  search(
+    request: internal_pb.SearchRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: internal_pb.SearchResponse) => void): grpcWeb.ClientReadableStream<internal_pb.SearchResponse>;
+
+  search(
+    request: internal_pb.SearchRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: internal_pb.SearchResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/internal.PhotoCircleWebInternal/Search',
+        request,
+        metadata || {},
+        this.methodDescriptorSearch,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/internal.PhotoCircleWebInternal/Search',
+    request,
+    metadata || {},
+    this.methodDescriptorSearch);
+  }
+
 }
 

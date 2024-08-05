@@ -900,6 +900,574 @@ export namespace UserAlertButton {
   }
 }
 
+export class SearchRequest extends jspb.Message {
+  getSearchText(): string;
+  setSearchText(value: string): SearchRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SearchRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: SearchRequest): SearchRequest.AsObject;
+  static serializeBinaryToWriter(message: SearchRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SearchRequest;
+  static deserializeBinaryFromReader(message: SearchRequest, reader: jspb.BinaryReader): SearchRequest;
+}
+
+export namespace SearchRequest {
+  export type AsObject = {
+    searchText: string,
+  }
+}
+
+export class SearchResponse extends jspb.Message {
+  getStatusCode(): StatusCode;
+  setStatusCode(value: StatusCode): SearchResponse;
+
+  getUserDetail(): UserDetail | undefined;
+  setUserDetail(value?: UserDetail): SearchResponse;
+  hasUserDetail(): boolean;
+  clearUserDetail(): SearchResponse;
+
+  getCircleDetail(): CircleDetail | undefined;
+  setCircleDetail(value?: CircleDetail): SearchResponse;
+  hasCircleDetail(): boolean;
+  clearCircleDetail(): SearchResponse;
+
+  getWorkspaceDetail(): WorkspaceDetail | undefined;
+  setWorkspaceDetail(value?: WorkspaceDetail): SearchResponse;
+  hasWorkspaceDetail(): boolean;
+  clearWorkspaceDetail(): SearchResponse;
+
+  getGroupDetail(): GroupDetail | undefined;
+  setGroupDetail(value?: GroupDetail): SearchResponse;
+  hasGroupDetail(): boolean;
+  clearGroupDetail(): SearchResponse;
+
+  getUserSummariesList(): Array<UserSummary>;
+  setUserSummariesList(value: Array<UserSummary>): SearchResponse;
+  clearUserSummariesList(): SearchResponse;
+  addUserSummaries(value?: UserSummary, index?: number): UserSummary;
+
+  getCircleSummariesList(): Array<CircleSummary>;
+  setCircleSummariesList(value: Array<CircleSummary>): SearchResponse;
+  clearCircleSummariesList(): SearchResponse;
+  addCircleSummaries(value?: CircleSummary, index?: number): CircleSummary;
+
+  getWorkspaceSummariesList(): Array<WorkspaceSummary>;
+  setWorkspaceSummariesList(value: Array<WorkspaceSummary>): SearchResponse;
+  clearWorkspaceSummariesList(): SearchResponse;
+  addWorkspaceSummaries(value?: WorkspaceSummary, index?: number): WorkspaceSummary;
+
+  getGroupSummariesList(): Array<GroupSummary>;
+  setGroupSummariesList(value: Array<GroupSummary>): SearchResponse;
+  clearGroupSummariesList(): SearchResponse;
+  addGroupSummaries(value?: GroupSummary, index?: number): GroupSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): SearchResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: SearchResponse): SearchResponse.AsObject;
+  static serializeBinaryToWriter(message: SearchResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): SearchResponse;
+  static deserializeBinaryFromReader(message: SearchResponse, reader: jspb.BinaryReader): SearchResponse;
+}
+
+export namespace SearchResponse {
+  export type AsObject = {
+    statusCode: StatusCode,
+    userDetail?: UserDetail.AsObject,
+    circleDetail?: CircleDetail.AsObject,
+    workspaceDetail?: WorkspaceDetail.AsObject,
+    groupDetail?: GroupDetail.AsObject,
+    userSummariesList: Array<UserSummary.AsObject>,
+    circleSummariesList: Array<CircleSummary.AsObject>,
+    workspaceSummariesList: Array<WorkspaceSummary.AsObject>,
+    groupSummariesList: Array<GroupSummary.AsObject>,
+  }
+}
+
+export class UserSummary extends jspb.Message {
+  getUserUuid(): string;
+  setUserUuid(value: string): UserSummary;
+
+  getDisplayName(): string;
+  setDisplayName(value: string): UserSummary;
+
+  getEmail(): string;
+  setEmail(value: string): UserSummary;
+
+  getEmailStatus(): EmailStatus;
+  setEmailStatus(value: EmailStatus): UserSummary;
+
+  getCreationTimestamp(): number;
+  setCreationTimestamp(value: number): UserSummary;
+
+  getLastSessionTimestamp(): number;
+  setLastSessionTimestamp(value: number): UserSummary;
+
+  getPlatform(): PlatformType;
+  setPlatform(value: PlatformType): UserSummary;
+
+  getIsDisabled(): boolean;
+  setIsDisabled(value: boolean): UserSummary;
+
+  getIsWorkspaceUser(): boolean;
+  setIsWorkspaceUser(value: boolean): UserSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserSummary.AsObject;
+  static toObject(includeInstance: boolean, msg: UserSummary): UserSummary.AsObject;
+  static serializeBinaryToWriter(message: UserSummary, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserSummary;
+  static deserializeBinaryFromReader(message: UserSummary, reader: jspb.BinaryReader): UserSummary;
+}
+
+export namespace UserSummary {
+  export type AsObject = {
+    userUuid: string,
+    displayName: string,
+    email: string,
+    emailStatus: EmailStatus,
+    creationTimestamp: number,
+    lastSessionTimestamp: number,
+    platform: PlatformType,
+    isDisabled: boolean,
+    isWorkspaceUser: boolean,
+  }
+}
+
+export class UserDetail extends jspb.Message {
+  getUserUuid(): string;
+  setUserUuid(value: string): UserDetail;
+
+  getDisplayName(): string;
+  setDisplayName(value: string): UserDetail;
+
+  getEmail(): string;
+  setEmail(value: string): UserDetail;
+
+  getEmailStatus(): EmailStatus;
+  setEmailStatus(value: EmailStatus): UserDetail;
+
+  getCreationTimestamp(): number;
+  setCreationTimestamp(value: number): UserDetail;
+
+  getLastSessionTimestamp(): number;
+  setLastSessionTimestamp(value: number): UserDetail;
+
+  getPlatform(): PlatformType;
+  setPlatform(value: PlatformType): UserDetail;
+
+  getIsDisabled(): boolean;
+  setIsDisabled(value: boolean): UserDetail;
+
+  getAuthTypesList(): Array<AuthType>;
+  setAuthTypesList(value: Array<AuthType>): UserDetail;
+  clearAuthTypesList(): UserDetail;
+  addAuthTypes(value: AuthType, index?: number): UserDetail;
+
+  getWorkspace(): WorkspaceSummary | undefined;
+  setWorkspace(value?: WorkspaceSummary): UserDetail;
+  hasWorkspace(): boolean;
+  clearWorkspace(): UserDetail;
+
+  getGroup(): GroupSummary | undefined;
+  setGroup(value?: GroupSummary): UserDetail;
+  hasGroup(): boolean;
+  clearGroup(): UserDetail;
+
+  getIsWorkspaceOwner(): boolean;
+  setIsWorkspaceOwner(value: boolean): UserDetail;
+  hasIsWorkspaceOwner(): boolean;
+  clearIsWorkspaceOwner(): UserDetail;
+
+  getCirclesList(): Array<CircleSummary>;
+  setCirclesList(value: Array<CircleSummary>): UserDetail;
+  clearCirclesList(): UserDetail;
+  addCircles(value?: CircleSummary, index?: number): CircleSummary;
+
+  getAvatarUrl(): string;
+  setAvatarUrl(value: string): UserDetail;
+  hasAvatarUrl(): boolean;
+  clearAvatarUrl(): UserDetail;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserDetail.AsObject;
+  static toObject(includeInstance: boolean, msg: UserDetail): UserDetail.AsObject;
+  static serializeBinaryToWriter(message: UserDetail, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserDetail;
+  static deserializeBinaryFromReader(message: UserDetail, reader: jspb.BinaryReader): UserDetail;
+}
+
+export namespace UserDetail {
+  export type AsObject = {
+    userUuid: string,
+    displayName: string,
+    email: string,
+    emailStatus: EmailStatus,
+    creationTimestamp: number,
+    lastSessionTimestamp: number,
+    platform: PlatformType,
+    isDisabled: boolean,
+    authTypesList: Array<AuthType>,
+    workspace?: WorkspaceSummary.AsObject,
+    group?: GroupSummary.AsObject,
+    isWorkspaceOwner?: boolean,
+    circlesList: Array<CircleSummary.AsObject>,
+    avatarUrl?: string,
+  }
+}
+
+export class CircleSummary extends jspb.Message {
+  getCircleUuid(): string;
+  setCircleUuid(value: string): CircleSummary;
+
+  getTitle(): string;
+  setTitle(value: string): CircleSummary;
+
+  getInternalId(): string;
+  setInternalId(value: string): CircleSummary;
+  hasInternalId(): boolean;
+  clearInternalId(): CircleSummary;
+
+  getWorkspace(): WorkspaceSummary | undefined;
+  setWorkspace(value?: WorkspaceSummary): CircleSummary;
+  hasWorkspace(): boolean;
+  clearWorkspace(): CircleSummary;
+
+  getGroup(): GroupSummary | undefined;
+  setGroup(value?: GroupSummary): CircleSummary;
+  hasGroup(): boolean;
+  clearGroup(): CircleSummary;
+
+  getMemberCount(): number;
+  setMemberCount(value: number): CircleSummary;
+
+  getMediaCount(): number;
+  setMediaCount(value: number): CircleSummary;
+
+  getCreationTimestamp(): number;
+  setCreationTimestamp(value: number): CircleSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CircleSummary.AsObject;
+  static toObject(includeInstance: boolean, msg: CircleSummary): CircleSummary.AsObject;
+  static serializeBinaryToWriter(message: CircleSummary, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CircleSummary;
+  static deserializeBinaryFromReader(message: CircleSummary, reader: jspb.BinaryReader): CircleSummary;
+}
+
+export namespace CircleSummary {
+  export type AsObject = {
+    circleUuid: string,
+    title: string,
+    internalId?: string,
+    workspace?: WorkspaceSummary.AsObject,
+    group?: GroupSummary.AsObject,
+    memberCount: number,
+    mediaCount: number,
+    creationTimestamp: number,
+  }
+}
+
+export class CircleDetail extends jspb.Message {
+  getCircleUuid(): string;
+  setCircleUuid(value: string): CircleDetail;
+
+  getTitle(): string;
+  setTitle(value: string): CircleDetail;
+
+  getInternalId(): string;
+  setInternalId(value: string): CircleDetail;
+  hasInternalId(): boolean;
+  clearInternalId(): CircleDetail;
+
+  getWorkspace(): WorkspaceSummary | undefined;
+  setWorkspace(value?: WorkspaceSummary): CircleDetail;
+  hasWorkspace(): boolean;
+  clearWorkspace(): CircleDetail;
+
+  getGroup(): GroupSummary | undefined;
+  setGroup(value?: GroupSummary): CircleDetail;
+  hasGroup(): boolean;
+  clearGroup(): CircleDetail;
+
+  getMemberCount(): number;
+  setMemberCount(value: number): CircleDetail;
+
+  getMediaCount(): number;
+  setMediaCount(value: number): CircleDetail;
+
+  getCreationTimestamp(): number;
+  setCreationTimestamp(value: number): CircleDetail;
+
+  getMembersList(): Array<MemberSummary>;
+  setMembersList(value: Array<MemberSummary>): CircleDetail;
+  clearMembersList(): CircleDetail;
+  addMembers(value?: MemberSummary, index?: number): MemberSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CircleDetail.AsObject;
+  static toObject(includeInstance: boolean, msg: CircleDetail): CircleDetail.AsObject;
+  static serializeBinaryToWriter(message: CircleDetail, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CircleDetail;
+  static deserializeBinaryFromReader(message: CircleDetail, reader: jspb.BinaryReader): CircleDetail;
+}
+
+export namespace CircleDetail {
+  export type AsObject = {
+    circleUuid: string,
+    title: string,
+    internalId?: string,
+    workspace?: WorkspaceSummary.AsObject,
+    group?: GroupSummary.AsObject,
+    memberCount: number,
+    mediaCount: number,
+    creationTimestamp: number,
+    membersList: Array<MemberSummary.AsObject>,
+  }
+}
+
+export class MemberSummary extends jspb.Message {
+  getUserUuid(): string;
+  setUserUuid(value: string): MemberSummary;
+
+  getDisplayName(): string;
+  setDisplayName(value: string): MemberSummary;
+
+  getEmail(): string;
+  setEmail(value: string): MemberSummary;
+
+  getRoleName(): string;
+  setRoleName(value: string): MemberSummary;
+
+  getIsCircleCreator(): boolean;
+  setIsCircleCreator(value: boolean): MemberSummary;
+
+  getMediaContributionCount(): number;
+  setMediaContributionCount(value: number): MemberSummary;
+
+  getJoinedTimestamp(): number;
+  setJoinedTimestamp(value: number): MemberSummary;
+
+  getLastSessionTimestamp(): number;
+  setLastSessionTimestamp(value: number): MemberSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MemberSummary.AsObject;
+  static toObject(includeInstance: boolean, msg: MemberSummary): MemberSummary.AsObject;
+  static serializeBinaryToWriter(message: MemberSummary, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MemberSummary;
+  static deserializeBinaryFromReader(message: MemberSummary, reader: jspb.BinaryReader): MemberSummary;
+}
+
+export namespace MemberSummary {
+  export type AsObject = {
+    userUuid: string,
+    displayName: string,
+    email: string,
+    roleName: string,
+    isCircleCreator: boolean,
+    mediaContributionCount: number,
+    joinedTimestamp: number,
+    lastSessionTimestamp: number,
+  }
+}
+
+export class WorkspaceSummary extends jspb.Message {
+  getWorkspaceUuid(): string;
+  setWorkspaceUuid(value: string): WorkspaceSummary;
+
+  getName(): string;
+  setName(value: string): WorkspaceSummary;
+
+  getCompany(): string;
+  setCompany(value: string): WorkspaceSummary;
+
+  getCreatedTimestamp(): number;
+  setCreatedTimestamp(value: number): WorkspaceSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): WorkspaceSummary.AsObject;
+  static toObject(includeInstance: boolean, msg: WorkspaceSummary): WorkspaceSummary.AsObject;
+  static serializeBinaryToWriter(message: WorkspaceSummary, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): WorkspaceSummary;
+  static deserializeBinaryFromReader(message: WorkspaceSummary, reader: jspb.BinaryReader): WorkspaceSummary;
+}
+
+export namespace WorkspaceSummary {
+  export type AsObject = {
+    workspaceUuid: string,
+    name: string,
+    company: string,
+    createdTimestamp: number,
+  }
+}
+
+export class WorkspaceDetail extends jspb.Message {
+  getWorkspaceUuid(): string;
+  setWorkspaceUuid(value: string): WorkspaceDetail;
+
+  getName(): string;
+  setName(value: string): WorkspaceDetail;
+
+  getCompany(): string;
+  setCompany(value: string): WorkspaceDetail;
+
+  getCreatedTimestamp(): number;
+  setCreatedTimestamp(value: number): WorkspaceDetail;
+
+  getRootGroup(): GroupSummary | undefined;
+  setRootGroup(value?: GroupSummary): WorkspaceDetail;
+  hasRootGroup(): boolean;
+  clearRootGroup(): WorkspaceDetail;
+
+  getUsersList(): Array<UserSummary>;
+  setUsersList(value: Array<UserSummary>): WorkspaceDetail;
+  clearUsersList(): WorkspaceDetail;
+  addUsers(value?: UserSummary, index?: number): UserSummary;
+
+  getSeatsPurchased(): number;
+  setSeatsPurchased(value: number): WorkspaceDetail;
+  hasSeatsPurchased(): boolean;
+  clearSeatsPurchased(): WorkspaceDetail;
+
+  getSeatsEnabled(): number;
+  setSeatsEnabled(value: number): WorkspaceDetail;
+
+  getSubscriptionTermStartTimestamp(): number;
+  setSubscriptionTermStartTimestamp(value: number): WorkspaceDetail;
+  hasSubscriptionTermStartTimestamp(): boolean;
+  clearSubscriptionTermStartTimestamp(): WorkspaceDetail;
+
+  getSubscriptionTermEndTimestamp(): number;
+  setSubscriptionTermEndTimestamp(value: number): WorkspaceDetail;
+  hasSubscriptionTermEndTimestamp(): boolean;
+  clearSubscriptionTermEndTimestamp(): WorkspaceDetail;
+
+  getStripeSubscriptionId(): string;
+  setStripeSubscriptionId(value: string): WorkspaceDetail;
+  hasStripeSubscriptionId(): boolean;
+  clearStripeSubscriptionId(): WorkspaceDetail;
+
+  getStripeCustomerId(): string;
+  setStripeCustomerId(value: string): WorkspaceDetail;
+  hasStripeCustomerId(): boolean;
+  clearStripeCustomerId(): WorkspaceDetail;
+
+  getMediaResolution(): MediaResolutionType;
+  setMediaResolution(value: MediaResolutionType): WorkspaceDetail;
+
+  getOwnersList(): Array<UserSummary>;
+  setOwnersList(value: Array<UserSummary>): WorkspaceDetail;
+  clearOwnersList(): WorkspaceDetail;
+  addOwners(value?: UserSummary, index?: number): UserSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): WorkspaceDetail.AsObject;
+  static toObject(includeInstance: boolean, msg: WorkspaceDetail): WorkspaceDetail.AsObject;
+  static serializeBinaryToWriter(message: WorkspaceDetail, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): WorkspaceDetail;
+  static deserializeBinaryFromReader(message: WorkspaceDetail, reader: jspb.BinaryReader): WorkspaceDetail;
+}
+
+export namespace WorkspaceDetail {
+  export type AsObject = {
+    workspaceUuid: string,
+    name: string,
+    company: string,
+    createdTimestamp: number,
+    rootGroup?: GroupSummary.AsObject,
+    usersList: Array<UserSummary.AsObject>,
+    seatsPurchased?: number,
+    seatsEnabled: number,
+    subscriptionTermStartTimestamp?: number,
+    subscriptionTermEndTimestamp?: number,
+    stripeSubscriptionId?: string,
+    stripeCustomerId?: string,
+    mediaResolution: MediaResolutionType,
+    ownersList: Array<UserSummary.AsObject>,
+  }
+}
+
+export class GroupSummary extends jspb.Message {
+  getGroupUuid(): string;
+  setGroupUuid(value: string): GroupSummary;
+
+  getName(): string;
+  setName(value: string): GroupSummary;
+
+  getWorkspace(): WorkspaceSummary | undefined;
+  setWorkspace(value?: WorkspaceSummary): GroupSummary;
+  hasWorkspace(): boolean;
+  clearWorkspace(): GroupSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GroupSummary.AsObject;
+  static toObject(includeInstance: boolean, msg: GroupSummary): GroupSummary.AsObject;
+  static serializeBinaryToWriter(message: GroupSummary, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GroupSummary;
+  static deserializeBinaryFromReader(message: GroupSummary, reader: jspb.BinaryReader): GroupSummary;
+}
+
+export namespace GroupSummary {
+  export type AsObject = {
+    groupUuid: string,
+    name: string,
+    workspace?: WorkspaceSummary.AsObject,
+  }
+}
+
+export class GroupDetail extends jspb.Message {
+  getGroupUuid(): string;
+  setGroupUuid(value: string): GroupDetail;
+
+  getName(): string;
+  setName(value: string): GroupDetail;
+
+  getWorkspace(): WorkspaceSummary | undefined;
+  setWorkspace(value?: WorkspaceSummary): GroupDetail;
+  hasWorkspace(): boolean;
+  clearWorkspace(): GroupDetail;
+
+  getParent(): GroupSummary | undefined;
+  setParent(value?: GroupSummary): GroupDetail;
+  hasParent(): boolean;
+  clearParent(): GroupDetail;
+
+  getChildrenList(): Array<GroupSummary>;
+  setChildrenList(value: Array<GroupSummary>): GroupDetail;
+  clearChildrenList(): GroupDetail;
+  addChildren(value?: GroupSummary, index?: number): GroupSummary;
+
+  getUsersList(): Array<UserSummary>;
+  setUsersList(value: Array<UserSummary>): GroupDetail;
+  clearUsersList(): GroupDetail;
+  addUsers(value?: UserSummary, index?: number): UserSummary;
+
+  getCirlcesList(): Array<CircleSummary>;
+  setCirlcesList(value: Array<CircleSummary>): GroupDetail;
+  clearCirlcesList(): GroupDetail;
+  addCirlces(value?: CircleSummary, index?: number): CircleSummary;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GroupDetail.AsObject;
+  static toObject(includeInstance: boolean, msg: GroupDetail): GroupDetail.AsObject;
+  static serializeBinaryToWriter(message: GroupDetail, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GroupDetail;
+  static deserializeBinaryFromReader(message: GroupDetail, reader: jspb.BinaryReader): GroupDetail;
+}
+
+export namespace GroupDetail {
+  export type AsObject = {
+    groupUuid: string,
+    name: string,
+    workspace?: WorkspaceSummary.AsObject,
+    parent?: GroupSummary.AsObject,
+    childrenList: Array<GroupSummary.AsObject>,
+    usersList: Array<UserSummary.AsObject>,
+    cirlcesList: Array<CircleSummary.AsObject>,
+  }
+}
+
 export class HelloRequest extends jspb.Message {
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): HelloRequest.AsObject;
@@ -933,7 +1501,7 @@ export namespace HelloResponse {
 }
 
 export enum SchemaVersion { 
-  CURRENT_SCHEMA_VERSION = 1080,
+  CURRENT_SCHEMA_VERSION = 1082,
 }
 export enum AuthType { 
   PASSWORD = 1,
@@ -985,4 +1553,13 @@ export enum StatusCode {
   WEB_ACCESS_DENIED = 303,
   DUPLICATE_CIRCLE_TITLE = 304,
   DUPLICATE_CIRCLE_INTERNAL_ID = 305,
+}
+export enum PlatformType { 
+  UNKNOWN = 1,
+  IOS = 2,
+  ANDROID = 3,
+}
+export enum MediaResolutionType { 
+  STANDARD = 1,
+  HIGH = 2,
 }
