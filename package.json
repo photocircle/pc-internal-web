@@ -6,7 +6,8 @@
   "scripts": {
     "vite:start": "vite --config config/vite.config.mts",
     "start": "cross-env VITE_APP=WEB npm run vite:start",
-    "build": "tsc && vite build --config config/vite.config.mts"
+    "build": "tsc && vite build --config config/vite.config.mts",
+    "fakebuild": "vite build --config config/vite.config.mts"
   },
   "author": "Medin",
   "license": "ISC",
