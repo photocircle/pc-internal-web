@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { Input } from '../controls/Input';
 import { Search as SearchIcon } from '../../assets/Icons';
@@ -5,9 +6,11 @@ import { User } from '../../assets/Icons';
 import { Workspace } from '../../assets/Icons';
 import { Group } from '../../assets/Icons';
 import { Circle } from '../../assets/Icons';
-import './Search.less'
-import React from 'react';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+import { SearchRequest, SearchResponse } from '../../generated/internal_pb';
+import { grpcClient, grpcMetadata } from '../../common/utils';
+import './Search.less'
+import { toast } from 'react-toastify';
 
 const results = [
     {
@@ -31,16 +34,45 @@ const icons: any = {
     circle: <Circle />,
 }
 
-export function Search({ }) {
+
+
+let searchTimeout: NodeJS.Timeout | undefined
+
+type Props = {
+    onSearch(searchResults: SearchResponse.AsObject): void
+}
+
+export function Search({ onSearch }: Props) {
     const [search, setSearch] = useState('')
     const [showResults, setShowResults] = useState(false)
     const ref = React.createRef<any>()
 
     useOnClickOutside(ref, showResults, () => setShowResults(false))
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.target.value)
+    async function searchRequest(search: string) {
+        console.log('searchRequest', search)
+        const req = new SearchRequest()
+        req.setSearchText(search)
+        try {
+            const resp = await grpcClient.search(req, grpcMetadata)
+            console.log(resp.toObject())
+            onSearch(resp.toObject())
+        } catch (e: any) {
+            toast.error(`Failed to search. ${e.message}`)
+        }
+    }
+
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const search = e.target.value
+        setSearch(search)
         setShowResults(true)
+
+        if (search) {
+            clearTimeout(searchTimeout)
+            searchTimeout = setTimeout(
+                () => searchRequest(search),
+                500)
+        }
     }
 
     return (

@@ -2,13 +2,17 @@ import { Logo, SignOut } from '../../assets/Icons'
 import { Button } from '../controls/Button';
 import { Search } from './Search';
 import './Header.less'
+import { SearchResponse } from '../../generated/internal_pb';
 
-export function Header() {
+type Props = {
+    onSearch(searchResults: SearchResponse.AsObject): void
+}
+export function Header({ onSearch }: Props) {
     return (
         <header className='Header'>
             <Logo />
 
-            <Search />
+            <Search onSearch={onSearch} />
 
             <Button
                 className="sign-out"

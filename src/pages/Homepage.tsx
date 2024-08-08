@@ -4,11 +4,8 @@ import { Header } from "../components/common/Header";
 import { UserCard } from "../components/cards/UserCard";
 import { CircleMetadata, MemberMetadata } from "../generated/web_app_grpc_pb";
 import { WorkspaceCard } from "../components/cards/WorkspaceCard";
+import { SearchResponse } from "../generated/internal_pb";
 import './Homepage.less'
-
-// XXX: For demo purposes
-import { grpcClient, grpcMetadata } from "../common/utils";
-import { HelloRequest } from "../generated/internal_pb";
 
 export type UserType = MemberMetadata.AsObject & { circles: CircleType[] }
 
@@ -170,13 +167,13 @@ export function Homepage() {
         }])
     }
 
-    // XXX HACK: This is just an example gRPC call. Check network tab
-    const req = new HelloRequest()
-    const resp = grpcClient.hello(req, grpcMetadata).then((resp) => console.log(resp.toObject()))
+    const onSearch = (searchResults: SearchResponse.AsObject) => {
+        console.log('In Homepage',searchResults)
+    }
 
     return (
         <div className="Homepage">
-            <Header />
+            <Header onSearch={onSearch} />
 
             <div className="content">
                 {selected.map((item, index) => {
